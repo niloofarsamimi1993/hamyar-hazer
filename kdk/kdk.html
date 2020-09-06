@@ -1,0 +1,730 @@
+
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+  <!-- Load bootstrap CSS-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <!-- Load jquery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- Load popper -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <!-- Load bootstrap-->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <!-- Load d3.js -->
+  <script src="https://d3js.org/d3.v4.js"></script>
+  <!-- Load color palettes -->
+  <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+</head>
+
+
+<style>
+  @font-face {
+    font-family:B_Koodak;
+    src: url(B_KOODAK_BOLD.woff) format('woff');
+    src: url(BKoodakBold.woff2) format('woff2'),
+         url(BKoodakBold.eot) format('eot'),
+         url(B _Koodak_Bold.ttf)  format('truetype');
+  }
+
+  @media only screen and (min-width: 800px) {
+    #my_dataviz{
+      box-sizing: border-box;
+
+    }
+    h1{
+      font-family: 'B_Koodak';
+      font-size: 5vw;
+      color: #7a0033;
+      align-self: center;
+      margin-right: auto;
+  }
+
+
+    h2{
+      font-family: 'B_Koodak';
+      font-size: 2vw;
+      color: #7a0033;
+      width: 100%;
+      align-self: center;
+      text-align: center;
+      margin-bottom: 5%;
+  }
+
+    h3{
+      font-family: 'B_Koodak';
+      font-size: 2vw;
+      color: #7a0033;
+      align-self: center;
+      text-align:right;
+      margin-bottom: 5%;
+  }
+
+    p{
+      font-family: 'B_Koodak';
+      font-size: 1.2em;
+      color: #7a0033;
+      font-weight: lighter;
+      text-align: justify;
+  }
+
+    .col-sm-4,.col-sm-7,
+    .col-sm-2,.col-sm-3,.col-sm-6{
+      padding: 0;
+  }
+
+    .col-sm-7{
+      display:inline-flex;
+      justify-content: space-between;
+      margin-bottom: 5%
+  }
+
+
+    .container{
+      max-width:1350px;
+      scale:0.95;
+  }
+
+    .row{
+      justify-content: center;
+      margin-bottom: 1%;
+
+  }
+
+    #counter{
+      font-size: 2vw;
+      margin-left: auto;
+  }
+
+    video{
+      width: 100%
+  }
+
+    .number{
+      font-family: 'B_Koodak';
+      font-size: 1.3vw;
+      color: white;
+      font-weight:200;
+  }
+
+    #footer{
+      background-color: #7a0033;
+      display: flex;
+      padding-top: 4%;
+      padding-bottom: 3%;
+      margin-bottom: 0;
+  }
+
+    .icon{
+       max-width: 35px;
+       padding: 10px;
+  }
+
+    #footer h{
+      padding: 0;
+      font-family: tahoma;
+      font-size: 1em;
+      color: white;
+      font-weight:200;
+  }
+
+    a {
+      padding: 0;
+      font-family: tahoma;
+      font-size: 1em;
+      color: white;
+      font-weight:200;
+      text-decoration: none;
+  }
+
+    a:hover {
+      color: black;
+      text-decoration: none;
+  }
+
+    .rectangle {
+      height: 6vw;
+      width: 30vw;
+      position: relative;
+      background-color: #7a0033;
+      display: flex;
+      justify-content:center;
+      align-items: center;
+      margin-bottom: auto;
+  }
+    .circle {
+      height: 40px;
+      width: 40px;
+      border-radius: 50%;
+      position: relative;
+      background-color: #7a0033;
+      display: flex;
+      justify-content:center;
+      align-items: center;
+      margin-top: auto;
+  }
+
+    .phone{
+      max-width:10vw;
+      height:auto;
+      margin-top: auto;
+  }
+
+    .text-icon{
+      display:flex;
+      height: 35px;
+      align-items:center;
+  }
+
+    #img1{
+      max-height:6vw;
+      width: auto;
+  }
+}
+
+  @media only screen and (max-width: 800px) {
+    h1{
+      font-family: 'B_Koodak';
+      font-size: 1.9em;
+      color: #7a0033;
+      align-self: center;
+      margin-right: auto;
+  }
+
+    h2{
+      font-family: 'B_Koodak';
+      font-size: 1.2em;
+      color: #7a0033;
+      width: 100%;
+      text-align:center;
+  }
+
+    h3{
+      font-family: 'B_Koodak';
+      font-size: 1.2em;
+      color: #7a0033;
+      text-align:right;
+      font-weight: bold;
+      margin-bottom: 5%;
+  }
+
+    p{
+      font-family: Tahoma;
+      font-size: 0.9em;
+      color: #7a0033;
+      font-weight:450;
+      text-align:justify;
+  }
+
+    .col-sm-4,.col-sm-7,
+    .col-sm-2,.col-sm-3,.col-sm-6{
+      padding: 0;
+  }
+
+
+    .col-sm-7{
+      display:flex;
+      justify-content: space-between;
+      margin-bottom: 5%
+  }
+
+    .col-sm-3{
+      margin-bottom: 10%;
+  }
+
+    .col-sm-6{
+      margin-bottom: 10%;
+  }
+
+    .container{
+      margin-top: 15px;
+
+      max-width:330px;
+  }
+
+    .row{
+      justify-content: center;
+      margin-bottom: 5%;
+  }
+    #counter{
+      font-size: 1em;
+      margin-left: auto;
+  }
+
+    video{
+      width: 100%
+  }
+
+    .number{
+      font-family: 'B_Koodak';
+      font-size: 0.5em;
+      color: white;
+      font-weight:200;
+  }
+
+    #footer{
+      background-color: #7a0033;
+      padding-top: 10%;
+      padding-bottom: 10%;
+      padding-bottom: 2%;
+      margin-bottom: 0;
+  }
+
+    .icon{
+      display: none;
+      max-width: 35px;
+      padding: 10px;
+  }
+
+    #footer h{
+      font-family: tahoma;
+      font-size: 0.9em;
+      color: white;
+      font-weight:200;
+      text-align: right;
+
+
+  }
+
+    a {
+      font-family: tahoma;
+      font-size: 0.9em;
+      color: white;
+      font-weight:200;
+      text-decoration: none;
+
+  }
+    a:hover {
+      color: black;
+      text-decoration: none;
+  }
+
+    .rectangle {
+      height: 6vw;
+      width: 30vw;
+      position: relative;
+      background-color: #7a0033;
+      display: flex;
+      justify-content:center;
+      align-items: center;
+      margin-bottom: auto;
+  }
+
+    .circle {
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      position: relative;
+      background-color: #7a0033;
+      display: flex;
+      justify-content:center;
+      align-items: center;
+      margin-top: auto;
+}
+
+    .phone{
+      max-width:5em;
+      height:auto;
+      margin-top: auto;
+  }
+    .text-icon{
+       display:flex;
+       height: 40px;
+       align-items:center;
+  }
+
+    #img1{
+      max-height:2.1em;
+      width: auto;
+  }
+}
+
+</style>
+
+
+<body>
+  <title>کمپین همیار حاضر</title>
+
+<div class="container-fluid">
+    <div class="container">
+
+      <div class="row" style="margin-bottom:5%">
+        <img src="logo2.svg" alt="logo" id="img1">
+        <h1>#همیار_حاضر</h1>
+      </div>
+
+      <div class="row">
+        <div id="counter"></div>
+      </div>
+
+      <div class="row">
+        <div id="my_dataviz" ></div>
+        <div id="my_dataviz2"></div>
+      </div>
+
+      <div class="row">
+        <h2 >می‌دانیم با همکاری شما نخواهیم گذاشت دانش‌آموزان بااستعداد کم‌برخوردار مجبور به ترک تحصیل شوند.</h2>
+      </div>
+
+      <div class="row">
+
+       <div class="col-sm-4">
+         <p dir="rtl">برای پیوستن به کمپین همیار حاضر و حمایت از دانش‌آموزان بااستعداد کم‌برخوردار نام خود را به همراه کلمه حاضر(مثلا: احمد حاضر) به شماره 100042510 پیامک کنید.</p>
+       </div>
+
+       <div class="col-sm-1"></div>
+
+       <div class="col-sm-7">
+         <img  src="mockup3.png" alt="logo" class="phone">
+         <div class="circle">
+           <h class="number">3</h>
+        </div>
+        <img  src="mockup2.png" alt="logo" class="phone">
+        <div class="circle">
+          <h class="number">2</h>
+        </div>
+        <img  src="mockup1.png" alt="logo" class="phone">
+        <div class="circle">
+          <h class="number">1</h>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row" >
+      <div class="col-sm-4">
+        <h3>درباره کمپین همیار حاضر</h3>
+        <p dir="rtl">۶ هزاز دانش‌آموز بودند و حالا ۲ هزارتای آن‌ها در سرکلاس درس حاضر می‌مانند. اما هنوز سرنوشت ۴ هزار دانش‌آموز دیگر معلوم نیست و اگر زودتر به آن‌ها کمک نشود، احتمال ترک تحصیل‌شان وجود دارد. این دانش‌آموزان تحت حمایت و پوشش بنیاد کودک هستند.
+
+بنیاد کودک یک موسسه خیریه است که به‌طور تخصصی روی تحصیل کودکان با استعداد اما کم‌ برخوردار فعالیت می‌کند. بنیادکودک ۲۵ سال کوشیده است که هزاران دانش‌آموز با استعداد کم‌برخوردار را از خطر حتمی ترک تحصیلِ اجباری برهاند و امروزه نیز بیش از ۱۱هزار دانش‌آموز با استعداد با میانگین معدل بالای 17.5 را حمایت می‌کند.</p2>
+      </div>
+      <div class="col-sm-1"></div>
+      <div class="col-sm-7" >
+        <video  controls>
+          <source src="10.mp4" type="video/mp4">
+          <source src="10.ogg" type="video/ogg">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+    </div>
+    </div>
+
+<div class="row" id="footer" >
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-3" >
+          <div class="text-icon">
+      <a href="http://www.childf.com/" target="_blank" dir="rtl">بنیاد کودک</a>
+      </div>
+      <div class="text-icon">
+      <a href="http://www.childf.com/" target="_blank" dir="rtl" >درباره کمپین همیار حاضر</a>
+      </div>
+      <div class="text-icon">
+      <a href="http://www.childf.com/" target="_blank" dir="rtl" >عضویت در خبرنامه</a>
+      </div>
+
+      </div>
+  <div class="col-sm-6">
+    <div class="text-icon">
+    <img  src="location.svg" alt="icon" class="icon" >
+    <h dir="rtl">تهران, خیابان ولیعصر, بالاتر از خیابان بهشتی,کوچه دل‌افروز, پلاک 34,طبقه 3 و 4</h>
+  </div>
+  <div class="text-icon">
+    <img  src="tell.svg" alt="icon" class="icon" >
+      <h dir="rtl" >021-42510</h>
+      </div>
+
+</div>
+
+  <div class="col-sm-3" dir="ltr">
+  <div class="text-icon">
+  <img  src="web.svg" alt="icon" class="icon">
+  <a href="http://www.childf.com/" target="_blank" dir="ltr">www.childf.com</a>
+  </div>
+  <div class="text-icon">
+  <img  src="mail.svg" alt="icon" class="icon">
+  <a href="http://pr@childf.org/" target="_blank" dir="ltr">pr@childf.org</a>
+  </div>
+  <div class="text-icon">
+  <img  src="instagram.svg" alt="icon" class="icon">
+  <a href="https://www.instagram.com/child_foundation/" target="_blank" dir="ltr">child_foundation</a>
+  </div>
+
+    </div>
+    </div>
+
+</div>
+</div>
+</div>
+
+
+
+<body>
+
+
+
+<script>
+function myFunction(x) {
+  if (x.matches) {
+    // set the dimensions and margins of the graph
+    var margin = {top: 80, right: 20, bottom: 10, left: 20},
+      width =330,
+      height = 2400;
+
+
+    $("#my_dataviz").empty();
+    $("#my_dataviz2").empty();
+    $("#counter").empty();
+
+    // append the svg object to the body of the page
+    var svg = d3.select("#my_dataviz")
+    .append("svg")
+      .attr("width", width )
+      .attr("height", height )
+
+    // create a tooltip
+    var tooltip = d3.select("#my_dataviz2")
+      .append("div")
+      .style("opacity", 0)
+      .attr("class", "tooltip")
+      .style("background-color", "#7a0033")
+      .style("border", "solid")
+      .style("border-width", "4px")
+      .style("border-color", "#b4afb1")
+      .style("border-radius", "10px")
+      .style("padding", "5px")
+      .style("position", "absolute")
+      .style("text-align", "center")
+      .style("pointer-events", "none")
+
+
+              // Three function that change the tooltip when user hover / move / leave a cell
+              var mouseover = function(d) {
+                tooltip
+                  .style("opacity", 1)
+                d3.select(this)
+                  .style("stroke", "none")
+                  .style("opacity", 1)
+              }
+              var mouseleave = function(d) {
+                tooltip
+                  .style("opacity", 0)
+                d3.select(this)
+                  .style("stroke", "none")
+                  .style("opacity", 0.8)
+              }
+              var mousemove = function(d) {
+                tooltip
+                  .html("نام همیار: " + d.name)
+                  .style("font-family", "B_Koodak")
+                  .style("font-size", "1vm")
+                  .style("color", "white")
+                  .style("left", (d3.event.pageX-40) + "px")
+                  .style("top", (d3.event.pageY - 40) + "px")
+              }
+
+                //Read the data
+                d3.csv("https://dl.dropboxusercontent.com/s/4anxygbcmrcz9t1/datatest2.csv?dl=1", function(data) {
+
+                  // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
+                  var myGroups = d3.map(data, function(d){return d.column;}).keys()
+                  var myVars = d3.map(data, function(d){return d.row;}).keys()
+
+                  // Build X scales and axis:
+                  var x = d3.scaleBand()
+                    .range([ width,0 ])
+                    .domain(myGroups)
+                    .padding(0.05);
+
+                  // Build Y scales and axis:
+                  var y = d3.scaleBand()
+                    .range([0,height ])
+                    .domain(myVars)
+                    .padding(0.05);
+
+
+                  // Build color
+                  var myColor = function(d){
+                    if(d.confirmation==1){
+                      return "#7a0033"}
+                    else{
+                      return "#b4afb1"
+                    }
+                  }
+
+                  var temp=6000;
+                  for (var i = 1; i < 6000; i++) {
+                    if (data[i].name!=""){
+                      temp--;
+                      }
+
+                      }
+
+                  var counter1 =d3.select("#counter")
+                  .append("text")
+                  .html("تعداد دانش‌آموزان نیازمند همیار: "+temp)
+                  .style("font-family", "B_Koodak")
+                  .style("color", "#7a0033")
+
+                  // add the squares
+                  svg.selectAll()
+                    .data(data, function(d) {return d.column+':'+d.row;})
+                    .enter()
+                    .append("rect")
+                      .attr("x", function(d) { return x(d.column) })
+                      .attr("y", function(d) { return y(d.row) })
+                      .attr("rx", 0)
+                      .attr("ry", 0)
+                      .attr("width", 8)
+                      .attr("height", 8 )
+                      .style("fill", myColor)
+                      .style("opacity", 0.8)
+                    .on("mouseover", mouseover)
+                    .on("mousemove", mousemove)
+                    .on("mouseleave", mouseleave)
+
+                })
+
+
+  } else {
+    // set the dimensions and margins of the graph
+    var margin = {top: 80, right: 20, bottom: 10, left: 20},
+      width = 1351 ,
+      height = 753;
+
+      $("#my_dataviz").empty();
+      $("#my_dataviz2").empty();
+      $("#counter").empty();
+    // append the svg object to the body of the page
+    var svg = d3.select("#my_dataviz")
+    .append("svg")
+      .attr("width", width )
+      .attr("height", height )
+
+    // create a tooltip
+    var tooltip = d3.select("#my_dataviz2")
+      .append("div")
+      .style("opacity", 0)
+      .attr("class", "tooltip")
+      .style("background-color", "#7a0033")
+      .style("border", "solid")
+      .style("border-width", "4px")
+      .style("border-color", "#b4afb1")
+      .style("border-radius", "10px")
+      .style("padding", "10px")
+      .style("position", "absolute")
+      .style("text-align", "center")
+      .style("pointer-events", "none")
+
+
+              // Three function that change the tooltip when user hover / move / leave a cell
+              var mouseover = function(d) {
+                tooltip
+                  .style("opacity", 1)
+                d3.select(this)
+                  .style("stroke", "black")
+                  .style("opacity", 1)
+              }
+              var mouseleave = function(d) {
+                tooltip
+                  .style("opacity", 0)
+                d3.select(this)
+                  .style("stroke", "none")
+                  .style("opacity", 0.8)
+              }
+              var mousemove = function(d) {
+                tooltip
+                  .html("نام همیار: " + d.name)
+                  .style("font-family", "B_Koodak")
+                  .style("font-size", "30px")
+                  .style("color", "white")
+                  .style("left", (d3.event.pageX-150) + "px")
+                  .style("top", (d3.event.pageY - 50) + "px")
+              }
+                //Read the data
+                d3.csv("https://dl.dropboxusercontent.com/s/nszdgj59zbltdqf/datatest.csv?dl=1", function(data) {
+
+                  // Labels of row and columns -> unique identifier of the column called 'group' and 'variable'
+                  var myGroups = d3.map(data, function(d){return d.column;}).keys()
+                  var myVars = d3.map(data, function(d){return d.row;}).keys()
+
+                  // Build X scales and axis:
+                  var x = d3.scaleBand()
+                    .range([ width,0 ])
+                    .domain(myGroups)
+                    .padding(0.05);
+
+                  // Build Y scales and axis:
+                  var y = d3.scaleBand()
+                    .range([0,height ])
+                    .domain(myVars)
+                    .padding(0.05);
+
+
+                  // Build color
+                  var myColor = function(d){
+                    if(d.confirmation==1){
+                      return "#7a0033"}
+                    else{
+                      return "#b4afb1"
+                    }
+                  }
+                  var temp=6000;
+                  for (var i = 1; i < 6000; i++) {
+                    if (data[i].name!=""){
+                      temp--;
+                      }
+
+                      }
+
+
+                  var counter1 =d3.select("#counter")
+                  .append("text")
+                  .html("تعداد دانش‌آموزان نیازمند همیار: "+temp)
+                  .style("font-family", "B_Koodak")
+                  .style("color", "#7a0033")
+
+                  // add the squares
+                  svg.selectAll()
+                    .data(data, function(d) {return d.column+':'+d.row;})
+                    .enter()
+                    .append("rect")
+                      .attr("x", function(d) { return x(d.column) })
+                      .attr("y", function(d) { return y(d.row) })
+                      .attr("rx", 0)
+                      .attr("ry", 0)
+                      .attr("width", 11)
+                      .attr("height", 11 )
+                      .style("fill", myColor)
+                      .style("opacity", 0.8)
+                    .on("mouseover", mouseover)
+                    .on("mousemove", mousemove)
+                    .on("mouseleave", mouseleave)
+
+                })
+
+
+
+
+
+  }
+}
+var x = window.matchMedia("(max-width: 800px)")
+myFunction(x)
+x.addListener(myFunction)
+
+</script>
+<html><head><META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8"><meta name="Robots" content="NOINDEX " /></head><body></body>
+                <script type="text/javascript">
+                 var gearPage = document.getElementById('GearPage');
+                 if(null != gearPage)
+                 {
+                     gearPage.parentNode.removeChild(gearPage);
+                     document.title = "Error";
+                 }
+                 </script>
+                 </html>
